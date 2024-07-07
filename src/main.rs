@@ -1,5 +1,5 @@
-use pest::Parser;
 use pest::iterators::Pair;
+use pest::Parser;
 use pest_derive::Parser;
 
 #[derive(Parser)]
@@ -10,7 +10,6 @@ fn process_pair(pair: Pair<Rule>, indent: usize) {
     let indentation = " ".repeat(indent);
 
     match pair.as_rule() {
-        Rule::sentence => {}
         Rule::negation => {
             println!("{}negation", indentation)
         }
@@ -29,11 +28,8 @@ fn process_pair(pair: Pair<Rule>, indent: usize) {
         Rule::sentence_letter => {
             println!("{}{}", indentation, pair.as_str());
         }
-        _ => {
-
-        }
+        _ => {}
     }
-
 
     for p in pair.into_inner() {
         process_pair(p, indent + 2);

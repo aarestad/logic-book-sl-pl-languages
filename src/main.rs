@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use pest::iterators::Pair;
 use pest::Parser;
 use pest_derive::Parser;
@@ -6,44 +7,49 @@ use pest_derive::Parser;
 #[grammar = "sl-grammar.pest"]
 struct SLGrammarParser;
 
-fn process_pair(pair: Pair<Rule>, indent: usize) {
-    let indentation = " ".repeat(indent);
-
+fn evaluate_pair(pair: &Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
     match pair.as_rule() {
         Rule::negation => {
-            println!("{}negation", indentation)
-        }
-        Rule::conjunction => {
-            println!("{}conjunction", indentation)
-        }
-        Rule::disjunction => {
-            println!("{}disjunction", indentation)
-        }
-        Rule::material_conditional => {
-            println!("{}material conditional", indentation)
-        }
-        Rule::material_biconditional => {
-            println!("{}material biconditional", indentation)
+            let mut inner = pair.clone().into_inner();
+            // child is sentence -> sentence_letter (for now)
+            let negation_target = &inner.nth(1).unwrap().into_inner().next().unwrap();
+            let evaluation = evaluate_pair(negation_target, assignments);
+
+            if let Some(result) = evaluation {
+                Some(!result)
+            } else {
+                None
+            }
         }
         Rule::sentence_letter => {
-            println!("{}{}", indentation, pair.as_str());
-        }
-        _ => {}
-    }
+            let letter = pair.as_str();
 
-    for p in pair.into_inner() {
-        process_pair(p, indent + 2);
+            if assignments.contains_key(letter) {
+                Some(*assignments.get(letter).unwrap())
+            } else {
+                None
+            }
+        }
+        _ => { None }
     }
 }
 
 fn main() {
-    let pairs_result = SLGrammarParser::parse(Rule::sentence, "~(A & (B v (C = D)))");
+    let pairs_result = SLGrammarParser::parse(Rule::sentence, "~A");
 
     if let Ok(pairs) = pairs_result {
+        let assignments = HashMap::from([
+            ("A", false),
+       ] );
+
         for p in pairs {
-            process_pair(p, 0);
+            if let Some(evaluation) = evaluate_pair(&p.clone().into_inner().next().unwrap(), &assignments) {
+                println!("evaluation: {}", evaluation);
+            } else {
+                println!("cannot evaluate {} with assignments {:#?}", p.as_str(), assignments);
+            }
         }
     } else {
-        println!("{}", pairs_result.err().unwrap());
+        println!("error parsing string: {}", pairs_result.err().unwrap());
     }
 }

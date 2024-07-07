@@ -1,11 +1,11 @@
-sentence_letter =  { ASCII_ALPHA_UPPER }
-tilde           =  { "~" }
-ampersand       =  { "&" }
-vel             =  { "v" | "∨" }
-horseshoe       =  { ">" | "⊃" }
-triple_bar      =  { "=" | "≡" }
-open_paren      = @{ "(" }
-closed_paren    = @{ ")" }
+sentence_letter = { ASCII_ALPHA_UPPER }
+tilde           = { "~" }
+ampersand       = { "&" }
+vel             = { "v" | "∨" }
+horseshoe       = { ">" | "⊃" }
+triple_bar      = { "=" | "≡" }
+open_paren      = { "(" }
+closed_paren    = { ")" }
 
 negation =               { tilde ~ sentence }
 conjunction =            { open_paren ~ sentence ~ ampersand ~ sentence ~ closed_paren }

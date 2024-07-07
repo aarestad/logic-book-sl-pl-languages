@@ -10,7 +10,7 @@ struct SLGrammarParser;
 fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
     match pair.as_rule() {
         Rule::negation => {
-            let mut inner = pair.clone().into_inner();
+            let mut inner = pair.into_inner();
             let negation_target = inner.nth(1).unwrap().into_inner().next().unwrap();
             let evaluation = evaluate_pair(negation_target, assignments);
 

@@ -9,9 +9,11 @@ struct SLGrammarParser;
 
 fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
     match pair.as_rule() {
+        Rule::sentence => {
+            evaluate_pair(pair.into_inner().next().unwrap(), assignments)
+        }
         Rule::negation => {
-            let mut inner = pair.into_inner();
-            let negation_target = inner.nth(1).unwrap().into_inner().next().unwrap();
+            let negation_target = pair.into_inner().nth(1).unwrap();
             let evaluation = evaluate_pair(negation_target, assignments);
 
             if let Some(result) = evaluation {
@@ -37,11 +39,11 @@ fn main() {
     let pairs_result = SLGrammarParser::parse(Rule::sentence, "~A");
 
     if let Ok(pairs) = pairs_result {
-        let assignments = HashMap::from([("B", false)]);
+        let assignments = HashMap::from([("A", false)]);
         let sentence = pairs.as_str();
 
         for p in pairs.into_iter() {
-            if let Some(evaluation) = evaluate_pair(p.into_inner().next().unwrap(), &assignments) {
+            if let Some(evaluation) = evaluate_pair(p, &assignments) {
                 println!("evaluation: {}", evaluation);
             } else {
                 println!(

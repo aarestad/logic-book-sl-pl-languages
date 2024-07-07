@@ -1,7 +1,7 @@
-use std::collections::HashMap;
 use pest::iterators::Pair;
 use pest::Parser;
 use pest_derive::Parser;
+use std::collections::HashMap;
 
 #[derive(Parser)]
 #[grammar = "sl-grammar.pest"]
@@ -30,7 +30,7 @@ fn evaluate_pair(pair: &Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option
                 None
             }
         }
-        _ => { None }
+        _ => None,
     }
 }
 
@@ -38,15 +38,19 @@ fn main() {
     let pairs_result = SLGrammarParser::parse(Rule::sentence, "~A");
 
     if let Ok(pairs) = pairs_result {
-        let assignments = HashMap::from([
-            ("A", false),
-       ] );
+        let assignments = HashMap::from([("A", false)]);
 
         for p in pairs {
-            if let Some(evaluation) = evaluate_pair(&p.clone().into_inner().next().unwrap(), &assignments) {
+            if let Some(evaluation) =
+                evaluate_pair(&p.clone().into_inner().next().unwrap(), &assignments)
+            {
                 println!("evaluation: {}", evaluation);
             } else {
-                println!("cannot evaluate {} with assignments: {:#?}", p.as_str(), assignments);
+                println!(
+                    "cannot evaluate {} with assignments: {:#?}",
+                    p.as_str(),
+                    assignments
+                );
             }
         }
     } else {

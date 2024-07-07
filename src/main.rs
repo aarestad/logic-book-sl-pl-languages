@@ -46,7 +46,7 @@ fn main() {
             if let Some(evaluation) = evaluate_pair(&p.clone().into_inner().next().unwrap(), &assignments) {
                 println!("evaluation: {}", evaluation);
             } else {
-                println!("cannot evaluate {} with assignments {:#?}", p.as_str(), assignments);
+                println!("cannot evaluate {} with assignments: {:#?}", p.as_str(), assignments);
             }
         }
     } else {

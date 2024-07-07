@@ -41,15 +41,12 @@ fn main() {
         let sentence = pairs.as_str();
 
         for p in pairs.into_iter() {
-            if let Some(evaluation) =
-                evaluate_pair(p.into_inner().next().unwrap(), &assignments)
-            {
+            if let Some(evaluation) = evaluate_pair(p.into_inner().next().unwrap(), &assignments) {
                 println!("evaluation: {}", evaluation);
             } else {
                 println!(
                     "cannot evaluate |{}| with assignments: {:#?}",
-                    sentence,
-                    assignments
+                    sentence, assignments
                 );
             }
         }

@@ -1,0 +1,19 @@
+sentence_letter =  { ASCII_ALPHA_UPPER }
+tilde           =  { "~" }
+ampersand       =  { "&" }
+vel             =  { "v" | "∨" }
+horseshoe       =  { ">" | "⊃" }
+triple_bar      =  { "=" | "≡" }
+open_paren      = @{ "(" }
+closed_paren    = @{ ")" }
+
+negation =               { tilde ~ sentence }
+conjunction =            { open_paren ~ sentence ~ ampersand ~ sentence ~ closed_paren }
+disjunction =            { open_paren ~ sentence ~ vel ~ sentence ~ closed_paren }
+material_conditional =   { open_paren ~ sentence ~ horseshoe ~ sentence ~ closed_paren }
+material_biconditional = { open_paren ~ sentence ~ triple_bar ~ sentence ~ closed_paren }
+
+sentence = { sentence_letter | negation | conjunction | disjunction | material_conditional | material_biconditional }
+
+WHITESPACE = _{ " " }
+

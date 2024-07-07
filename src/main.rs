@@ -7,12 +7,11 @@ use std::collections::HashMap;
 #[grammar = "sl-grammar.pest"]
 struct SLGrammarParser;
 
-fn evaluate_pair(pair: &Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
+fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
     match pair.as_rule() {
         Rule::negation => {
             let mut inner = pair.clone().into_inner();
-            // child is sentence -> sentence_letter (for now)
-            let negation_target = &inner.nth(1).unwrap().into_inner().next().unwrap();
+            let negation_target = inner.nth(1).unwrap().into_inner().next().unwrap();
             let evaluation = evaluate_pair(negation_target, assignments);
 
             if let Some(result) = evaluation {
@@ -38,17 +37,18 @@ fn main() {
     let pairs_result = SLGrammarParser::parse(Rule::sentence, "~A");
 
     if let Ok(pairs) = pairs_result {
-        let assignments = HashMap::from([("A", false)]);
+        let assignments = HashMap::from([("B", false)]);
+        let sentence = pairs.as_str();
 
-        for p in pairs {
+        for p in pairs.into_iter() {
             if let Some(evaluation) =
-                evaluate_pair(&p.clone().into_inner().next().unwrap(), &assignments)
+                evaluate_pair(p.into_inner().next().unwrap(), &assignments)
             {
                 println!("evaluation: {}", evaluation);
             } else {
                 println!(
-                    "cannot evaluate {} with assignments: {:#?}",
-                    p.as_str(),
+                    "cannot evaluate |{}| with assignments: {:#?}",
+                    sentence,
                     assignments
                 );
             }

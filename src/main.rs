@@ -4,6 +4,7 @@ use pest::Parser;
 use pest_derive::Parser;
 
 use crate::evaluation::evaluate_pair;
+use crate::truth_table::print_truth_table;
 
 mod evaluation;
 mod truth_table;
@@ -18,7 +19,7 @@ fn main() {
     if let Ok(pairs) = pairs_result {
         let assignments = HashMap::from([("A", false), ("B", false)]);
         let sentence = pairs.as_str();
-        let sentence_pair = pairs.clone().into_iter().next().unwrap();
+        let sentence_pair = pairs.clone().next().unwrap();
 
         if let Some(evaluation) = evaluate_pair(sentence_pair, &assignments) {
             println!(
@@ -32,9 +33,9 @@ fn main() {
             );
         }
 
-        // println!("truth table:");
-        // print_truth_table(pairs);
+        println!("truth table:");
+        print_truth_table(pairs);
     } else {
-        println!("error parsing string: {}", pairs_result.err().unwrap());
+        println!("error parsing string: {}", pairs_result.unwrap_err());
     }
 }

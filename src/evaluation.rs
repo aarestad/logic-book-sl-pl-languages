@@ -10,11 +10,8 @@ pub(crate) fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>)
             evaluate_pair(pair.into_inner().next().unwrap(), assignments)
         }
         Rule::negation => {
-            if let Some(result) = evaluate_pair(pair.into_inner().next().unwrap(), assignments) {
-                Some(!result)
-            } else {
-                None
-            }
+            evaluate_pair(pair.into_inner().next().unwrap(), assignments)
+                .map(|result| !result)
         }
         Rule::conjunction => binary_eval(pair, assignments, std::ops::BitAnd::bitand),
         Rule::disjunction => binary_eval(pair, assignments, std::ops::BitOr::bitor),
@@ -23,11 +20,7 @@ pub(crate) fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>)
             binary_eval(pair, assignments, |p, q| (p && q) || (!p && !q))
         }
         Rule::sentence_letter => {
-            if let Some(value) = assignments.get(pair.as_str()) {
-                Some(*value)
-            } else {
-                None
-            }
+            assignments.get(pair.as_str()).copied()
         }
         _ => None,
     }

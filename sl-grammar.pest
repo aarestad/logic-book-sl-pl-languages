@@ -16,4 +16,3 @@ material_biconditional = { open_paren ~ sentence ~ triple_bar ~ sentence ~ close
 sentence = { sentence_letter | negation | conjunction | disjunction | material_conditional | material_biconditional }
 
 WHITESPACE = _{ " " }
-

@@ -56,11 +56,11 @@ fn main() {
 
     if let Ok(pairs) = pairs_result {
         let assignments = HashMap::from([("A", false), ("B", false)]);
-        let sentence = pairs.as_str(); // grab the string
+        let sentence = pairs.as_str();
 
         for p in pairs.into_iter() {
             if let Some(evaluation) = evaluate_pair(p, &assignments) {
-                println!("evaluation of |{}|: {}", sentence, evaluation);
+                println!("evaluation of |{}|: {}; assignments: {:#?}", sentence, evaluation, assignments);
             } else {
                 println!(
                     "cannot evaluate |{}| with assignments: {:#?}",

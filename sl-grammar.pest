@@ -13,6 +13,6 @@ disjunction            = { open_paren ~ sentence ~ vel        ~ sentence ~ close
 material_conditional   = { open_paren ~ sentence ~ horseshoe  ~ sentence ~ closed_paren }
 material_biconditional = { open_paren ~ sentence ~ triple_bar ~ sentence ~ closed_paren }
 
-sentence = _{ sentence_letter | negation | conjunction | disjunction | material_conditional | material_biconditional }
+sentence = { sentence_letter | negation | conjunction | disjunction | material_conditional | material_biconditional }
 
 WHITESPACE = _{ " " }

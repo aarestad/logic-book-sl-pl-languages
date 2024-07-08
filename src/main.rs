@@ -13,7 +13,7 @@ fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<
             evaluate_pair(pair.into_inner().next().unwrap(), assignments)
         }
         Rule::negation => {
-            let negation_target = pair.into_inner().nth(1).unwrap();
+            let negation_target = pair.into_inner().next().unwrap();
             let evaluation = evaluate_pair(negation_target, assignments);
 
             if let Some(result) = evaluation {

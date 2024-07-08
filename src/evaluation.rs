@@ -6,12 +6,9 @@ use crate::Rule;
 
 pub(crate) fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
     match pair.as_rule() {
-        Rule::sentence => {
-            evaluate_pair(pair.into_inner().next().unwrap(), assignments)
-        }
+        Rule::sentence => evaluate_pair(pair.into_inner().next().unwrap(), assignments),
         Rule::negation => {
-            evaluate_pair(pair.into_inner().next().unwrap(), assignments)
-                .map(|result| !result)
+            evaluate_pair(pair.into_inner().next().unwrap(), assignments).map(|result| !result)
         }
         Rule::conjunction => binary_eval(pair, assignments, std::ops::BitAnd::bitand),
         Rule::disjunction => binary_eval(pair, assignments, std::ops::BitOr::bitor),
@@ -19,9 +16,7 @@ pub(crate) fn evaluate_pair(pair: Pair<Rule>, assignments: &HashMap<&str, bool>)
         Rule::material_biconditional => {
             binary_eval(pair, assignments, |p, q| (p && q) || (!p && !q))
         }
-        Rule::sentence_letter => {
-            assignments.get(pair.as_str()).copied()
-        }
+        Rule::sentence_letter => assignments.get(pair.as_str()).copied(),
         _ => None,
     }
 }

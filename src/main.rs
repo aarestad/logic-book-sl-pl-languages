@@ -34,7 +34,7 @@ fn main() {
         }
 
         println!("truth table:");
-        print_truth_table(pairs);
+        print_truth_table(&mut pairs.clone());
     } else {
         println!("error parsing string: {}", pairs_result.unwrap_err());
     }

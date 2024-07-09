@@ -8,6 +8,7 @@ pub(crate) fn truth_table(top: &mut Pairs<Rule>) -> Vec<String> {
     let sentence = top.next().unwrap();
     let sentence_str = sentence.as_str();
 
+    // we want to keep the atoms sorted alphabetically
     let mut atoms = BTreeSet::new();
     find_atoms_recurse(sentence.into_inner().next().unwrap(), &mut atoms);
 

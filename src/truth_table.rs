@@ -4,7 +4,7 @@ use pest::iterators::{Pair, Pairs};
 
 use crate::Rule;
 
-pub(crate) fn print_truth_table(top: &mut Pairs<Rule>) {
+pub(crate) fn truth_table(top: &mut Pairs<Rule>) -> Vec<String> {
     let sentence = top.next().unwrap();
     let sentence_str = sentence.as_str();
 
@@ -15,7 +15,10 @@ pub(crate) fn print_truth_table(top: &mut Pairs<Rule>) {
         panic!("too many atoms to print a truth table: {}", atoms.len());
     }
 
-    print_header(&atoms, sentence_str);
+    let mut truth_table = header(&atoms, sentence_str);
+
+    // for each unique assignment, print the row
+    truth_table
 }
 
 fn find_atoms_recurse(pair: Pair<Rule>, atoms: &mut BTreeSet<String>) {
@@ -31,9 +34,11 @@ fn find_atoms_recurse(pair: Pair<Rule>, atoms: &mut BTreeSet<String>) {
     }
 }
 
-fn print_header(atoms: &BTreeSet<String>, sentence_str: &str) {
+fn header(atoms: &BTreeSet<String>, sentence_str: &str) -> Vec<String> {
     let header_len = atoms.len() * 2 + sentence_str.len() + 2;
 
-    println!("{} | {}", itertools::join(atoms, " "), sentence_str);
-    println!("{}", "-".repeat(header_len));
+    vec![
+        format!("{} | {}", itertools::join(atoms, " "), sentence_str),
+        format!("{}", "-".repeat(header_len)),
+    ]
 }

@@ -4,10 +4,11 @@ use pest::Parser;
 use pest_derive::Parser;
 
 use crate::evaluation::evaluate_pair;
-use crate::truth_table::print_truth_table;
+use crate::truth_table::truth_table;
 
 mod evaluation;
 mod truth_table;
+mod truth_tree;
 
 #[derive(Parser)]
 #[grammar = "sl-grammar.pest"]
@@ -34,7 +35,9 @@ fn main() {
         }
 
         println!("truth table:");
-        print_truth_table(&mut pairs.clone());
+        for line in truth_table(&mut pairs.clone()) {
+            println!("{}", line);
+        }
     } else {
         println!("error parsing string: {}", pairs_result.unwrap_err());
     }

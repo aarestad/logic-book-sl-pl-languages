@@ -14,10 +14,10 @@ struct SLGrammarParser;
 fn main() {
     let pairs_result = SLGrammarParser::parse(Rule::sentence, "((~ B ⊃ C) & (A ≡ B))");
 
-    if let Ok(mut pairs) = pairs_result {
+    if let Ok(pairs) = pairs_result {
         println!("truth table:");
 
-        for line in truth_table(&mut pairs) {
+        for line in truth_table(pairs) {
             println!("{}", line);
         }
     } else {

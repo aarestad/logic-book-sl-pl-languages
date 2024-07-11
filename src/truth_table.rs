@@ -6,7 +6,7 @@ use pest::iterators::{Pair, Pairs};
 use crate::evaluation::evaluate_pair;
 use crate::Rule;
 
-pub(crate) fn truth_table(top: &mut Pairs<Rule>) -> Vec<String> {
+pub(crate) fn truth_table(mut top: Pairs<Rule>) -> Vec<String> {
     let sentence = top.next().unwrap();
     let sentence_str = sentence.as_str();
 
@@ -96,7 +96,7 @@ fn find_atoms_recurse(pair: Pair<Rule>, atoms: &mut BTreeSet<String>) {
 }
 
 fn header(atoms: &BTreeSet<String>, sentence_str: &str) -> Vec<String> {
-    let header_len = atoms.len() * 2 + sentence_str.len() + 2;
+    let header_len = atoms.len() * 2 + sentence_str.len() - 2;
 
     vec![
         format!("{} | {}", itertools::join(atoms, " "), sentence_str),

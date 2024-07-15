@@ -1,6 +1,6 @@
 sentence_letter = { ASCII_ALPHA_UPPER }
-tilde           = _{ "~" }
-ampersand       = _{ "&" }
+tilde           = _{ "\u{223C}" } // ∼ (note: not the same as ~ :)
+ampersand       = _{ "\u{2227}" } // ∧
 vel             = _{ "\u{2228}" } // ∨
 horseshoe       = _{ "\u{2283}" } // ⊃
 triple_bar      = _{ "\u{2261}" } // ≡

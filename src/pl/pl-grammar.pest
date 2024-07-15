@@ -1,0 +1,50 @@
+WHITESPACE = _{ " " }
+open_paren      = _{ "(" }
+closed_paren    = _{ ")" }
+
+numeric_subscript = { '\u{2081}' .. '\u{2089}' }
+
+individual_constant = { 'a' .. 'v' ~ numeric_subscript? }
+individual_variable = { 'w' .. 'z' ~ numeric_subscript? }
+individual_term = { individual_constant | individual_variable }
+
+tilde                  = { "\u{223C}" }
+wedge                  = { "\u{2227}" }
+vel                    = { "\u{2228}" }
+horseshoe              = { "\u{2283}" }
+triple_bar             = { "\u{2261}" }
+truth_functional_connective = { tilde | wedge | vel | horseshoe | triple_bar }
+
+universal_quantifier_symbol   = { "\u{2200}" }
+existential_quantifier_symbol = { "\u{2203}" }
+quantifier_symbol = { universal_quantifier_symbol | existential_quantifier_symbol }
+quantifier = { open_paren | quantifier_symbol | individual_variable | closed_paren }
+
+prime = { "\u{2032}" }
+sentence_letter = { ASCII_ALPHA_UPPER ~ numeric_subscript? }
+predicate_primes = { sentence_letter ~ prime+ }
+// A''ab <-> Aab - note that if predicate_with_terms has n primes, it must be followed by n terms
+// TODO implement in the parser using PUSH/POP?
+predicate_with_terms = { sentence_letter ~ prime* ~ individual_term+ }
+
+atomic_formula = { sentence_letter | predicate_with_terms }
+
+negation               = { tilde      ~ formula                                       }
+conjunction            = { open_paren ~ formula ~ wedge      ~ formula ~ closed_paren }
+disjunction            = { open_paren ~ formula ~ vel        ~ formula ~ closed_paren }
+material_conditional   = { open_paren ~ formula ~ horseshoe  ~ formula ~ closed_paren }
+material_biconditional = { open_paren ~ formula ~ triple_bar ~ formula ~ closed_paren }
+
+// TODO: rule 4: for *x* = (w|x|y|z), if P is a formula of PL that contains at least one occurrence of *x*
+// and no *x*-quantifier, then (∀*x*)P and (∃*x*)P are both formulas of PL.
+quantification         = { quantifier ~ formula }
+
+formula = {
+    atomic_formula // rule 1
+  | negation // rule 2
+  | conjunction | disjunction | material_conditional | material_biconditional // rule 3
+  | quantification // rule 4
+ }
+
+// TODO: Sentence of PL: A formula P of PL is a sentence of PL if and only if no occurrence of a variable in P is free.
+// can this be expressed in the grammar?

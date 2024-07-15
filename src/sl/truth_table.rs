@@ -3,8 +3,8 @@ use std::collections::{BTreeSet, HashMap};
 use itertools::{iproduct, zip_eq};
 use pest::iterators::{Pair, Pairs};
 
-use crate::evaluation::evaluate_pair;
-use crate::Rule;
+use crate::sl::evaluation::evaluate_pair;
+use crate::sl::Rule;
 
 pub(crate) fn truth_table(mut top: Pairs<Rule>) -> Vec<String> {
     let sentence = top.next().unwrap();

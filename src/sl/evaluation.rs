@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use pest::iterators::Pair;
 
-use crate::Rule;
+use crate::sl::Rule;
 
 pub(crate) fn evaluate_pair(pair: &Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
     match pair.as_rule() {

@@ -1,6 +1,6 @@
 sentence_letter = { ASCII_ALPHA_UPPER }
 tilde           = _{ "\u{223C}" } // ∼ (note: not the same as ~ :)
-ampersand       = _{ "\u{2227}" } // ∧
+wedge           = _{ "\u{2227}" } // ∧
 vel             = _{ "\u{2228}" } // ∨
 horseshoe       = _{ "\u{2283}" } // ⊃
 triple_bar      = _{ "\u{2261}" } // ≡
@@ -8,7 +8,7 @@ open_paren      = _{ "(" }
 closed_paren    = _{ ")" }
 
 negation               = { tilde      ~ sentence }
-conjunction            = { open_paren ~ sentence ~ ampersand  ~ sentence ~ closed_paren }
+conjunction            = { open_paren ~ sentence ~ wedge  ~ sentence ~ closed_paren }
 disjunction            = { open_paren ~ sentence ~ vel        ~ sentence ~ closed_paren }
 material_conditional   = { open_paren ~ sentence ~ horseshoe  ~ sentence ~ closed_paren }
 material_biconditional = { open_paren ~ sentence ~ triple_bar ~ sentence ~ closed_paren }

@@ -1,9 +1,9 @@
 sentence_letter = { ASCII_ALPHA_UPPER }
 tilde           = _{ "~" }
 ampersand       = _{ "&" }
-vel             = _{ "v" | "∨" }
-horseshoe       = _{ ">" | "⊃" }
-triple_bar      = _{ "=" | "≡" }
+vel             = _{ "\u{2228}" } // ∨
+horseshoe       = _{ "\u{2283}" } // ⊃
+triple_bar      = _{ "\u{2261}" } // ≡
 open_paren      = _{ "(" }
 closed_paren    = _{ ")" }
 

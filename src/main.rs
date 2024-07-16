@@ -20,7 +20,7 @@ fn main() {
     let top2 = pl::PLGrammarParser::parse(pl::Rule::top, "((∼Ba ⊃ C) ∧ (A ≡ B))");
 
     if let Ok(ref pairs) = top2 {
-        println!("{:#?}", top2);
+        println!("{:#?}", pairs);
     } else {
         let err = top2.unwrap_err();
         println!("error parsing PL string: {}", err);

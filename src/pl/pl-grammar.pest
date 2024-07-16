@@ -8,19 +8,19 @@ individual_constant = { 'a' .. 'v' ~ numeric_subscript? }
 individual_variable = { 'w' .. 'z' ~ numeric_subscript? }
 individual_term = { individual_constant | individual_variable }
 
-tilde           = { "\u{223C}" } // ∼
-wedge           = { "\u{2227}" } // ∧
-vel             = { "\u{2228}" } // ∨
-horseshoe       = { "\u{2283}" } // ⊃
-triple_bar      = { "\u{2261}" } // ≡
+tilde           = { "∼" } // note: not an ASCII tilde!
+wedge           = { "∧" }
+vel             = { "∨" }
+horseshoe       = { "⊃" }
+triple_bar      = { "≡" }
 truth_functional_connective = { tilde | wedge | vel | horseshoe | triple_bar }
 
-universal_quantifier_symbol   = { "\u{2200}" } // ∀
-existential_quantifier_symbol = { "\u{2203}" } // ∃
+universal_quantifier_symbol   = { "∀" }
+existential_quantifier_symbol = { "∃" }
 quantifier_symbol = { universal_quantifier_symbol | existential_quantifier_symbol }
 quantifier = { open_paren | quantifier_symbol | individual_variable | closed_paren }
 
-prime = { "\u{2032}" } // ′
+prime = { "′" }
 sentence_letter = { ASCII_ALPHA_UPPER ~ numeric_subscript? }
 // A''ab <-> Aab - note that if predicate_with_terms has n primes, it must be followed by n terms
 // TODO implement in the parser using PUSH/POP?

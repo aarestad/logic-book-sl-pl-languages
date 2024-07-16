@@ -17,7 +17,7 @@ fn main() {
         println!("error parsing SL string: {}", top.unwrap_err());
     }
 
-    let top2 = pl::PLGrammarParser::parse(pl::Rule::top, "B");
+    let top2 = pl::PLGrammarParser::parse(pl::Rule::sentence, "B");
 
     if let Ok(pairs) = top2 {
         println!("{}", pairs.as_str());

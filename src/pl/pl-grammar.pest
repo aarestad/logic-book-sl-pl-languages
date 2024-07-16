@@ -40,9 +40,10 @@ disjunction            = { open_paren ~ formula ~ vel        ~ formula ~ closed_
 material_conditional   = { open_paren ~ formula ~ horseshoe  ~ formula ~ closed_paren }
 material_biconditional = { open_paren ~ formula ~ triple_bar ~ formula ~ closed_paren }
 
-// TODO: rule 4: for *x* = (w|x|y|z), if P is a formula of PL that contains at least one occurrence of *x*
+//rule 4: for *x* = (w|x|y|z), if P is a formula of PL that contains at least one occurrence of *x*
 // and no *x*-quantifier, then (∀*x*)P and (∃*x*)P are both formulas of PL.
-quantification         = { quantifier ~ formula }
+// TODO enforce in grammar?
+quantification = { quantifier ~ formula }
 
 formula = {
     atomic_formula // rule 1
@@ -51,8 +52,8 @@ formula = {
   | quantification // rule 4
  }
 
-// TODO: Sentence of PL: A formula P of PL is a sentence of PL if and only if no occurrence of a variable in P is free.
-// can this be expressed in the grammar?
+// Sentence of PL: A formula P of PL is a sentence of PL if and only if no occurrence of a variable in P is free.
+// TODO can this be expressed in the grammar?
 sentence = { formula }
 
 top = { SOI ~ sentence ~ EOI }

@@ -162,4 +162,65 @@ mod test {
             }
         }
     }
+
+    #[test]
+    fn pl_negation_formula() {
+        assert!(PLGrammarParser::parse(Rule::top, "∼Abcde").is_ok());
+    }
+
+    #[test]
+    fn pl_conjunction_formula() {
+        assert!(PLGrammarParser::parse(Rule::top, "(Abc ∧ Def)").is_ok());
+    }
+
+    #[test]
+    fn pl_disjunction_formula() {
+        assert!(PLGrammarParser::parse(Rule::top, "(Abc ∨ Def)").is_ok());
+    }
+
+    #[test]
+    fn pl_implication_formula() {
+        assert!(PLGrammarParser::parse(Rule::top, "(Abc ⊃ Def)").is_ok());
+    }
+
+    #[test]
+    fn pl_biconditional_formula() {
+        assert!(PLGrammarParser::parse(Rule::top, "(Abc ≡ Def)").is_ok());
+    }
+
+    #[test]
+    fn pl_universal_quantifier_formula() {
+        assert!(PLGrammarParser::parse(Rule::top, "(∀x)Abcdx").is_ok());
+        assert!(PLGrammarParser::parse(Rule::top, "(∀x)(∀y)Abcdxy").is_ok());
+        assert!(PLGrammarParser::parse(Rule::top, "(∀x)(∃y)Abcdxy").is_ok());
+    }
+
+    #[test]
+    fn pl_bad_universal_quantifiers() {
+        assert!(PLGrammarParser::parse(Rule::top, "(∀a)Abcdx").is_err()); // must quantify a variable (w-z)
+
+        // TODO these are not errors yet
+        // assert!(PLGrammarParser::parse(Rule::top, "(∀x)Abcd").is_err()); // no variable in P
+        // assert!(PLGrammarParser::parse(Rule::top, "(∀x)Abcdy").is_err()); // P has a variable, but not x
+        // assert!(PLGrammarParser::parse(Rule::top, "(∀x)(∀x)Abcdx").is_err()); // cannot quantify x twice
+        // assert!(PLGrammarParser::parse(Rule::top, "(∀x)(∃x)Abcdx").is_err()); // cannot quantify x twice
+    }
+
+    #[test]
+    fn pl_existential_quantifier_formula() {
+        assert!(PLGrammarParser::parse(Rule::top, "(∃x)Abcdx").is_ok());
+        assert!(PLGrammarParser::parse(Rule::top, "(∃x)(∃y)Abcdxy").is_ok());
+        assert!(PLGrammarParser::parse(Rule::top, "(∃x)(∀y)Abcdxy").is_ok());
+    }
+
+    #[test]
+    fn pl_bad_existential_quantifiers() {
+        assert!(PLGrammarParser::parse(Rule::top, "(∃a)Abcdx").is_err()); // must quantify a variable (w-z)
+
+        // TODO these are not errors yet
+        // assert!(PLGrammarParser::parse(Rule::top, "(∃x)Abcd").is_err());      // no variable in P
+        // assert!(PLGrammarParser::parse(Rule::top, "(∃x)Abcdy").is_err());     // P has a variable, but not x
+        // assert!(PLGrammarParser::parse(Rule::top, "(∃x)(∃x)Abcdx").is_err()); // cannot quantify x twice
+        // assert!(PLGrammarParser::parse(Rule::top, "(∃x)(∀x)Abcdx").is_err()); // cannot quantify x twice
+    }
 }

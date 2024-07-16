@@ -22,11 +22,17 @@ quantifier = { open_paren | quantifier_symbol | individual_variable | closed_par
 
 prime = { "′" }
 sentence_letter = { ASCII_ALPHA_UPPER ~ numeric_subscript? }
-// A''ab <-> Aab - note that if predicate_with_terms has n primes, it must be followed by n terms
-// TODO implement in the parser using PUSH/POP?
-predicate_with_terms = { sentence_letter ~ prime* ~ individual_term+ }
 
-atomic_formula = { sentence_letter | predicate_with_terms }
+// Aab
+predicate_with_terms = { sentence_letter ~ individual_term+ }
+// A′′ab - note that if predicate_with_terms has n primes, it must be followed by n terms
+// TODO DROP drops the whole stack in one go and is ok with "dropping" an empty stack
+// predicate_with_primes_and_terms = { sentence_letter ~ PUSH(prime+) ~ (individual_term ~ DROP)+ }
+predicate_with_primes_and_terms = { sentence_letter ~ prime+ ~ individual_term+ }
+
+predicate = { predicate_with_primes_and_terms | predicate_with_terms }
+
+atomic_formula = { predicate | sentence_letter }
 
 negation               = { tilde      ~ formula                                       }
 conjunction            = { open_paren ~ formula ~ wedge      ~ formula ~ closed_paren }

@@ -17,10 +17,10 @@ fn main() {
         println!("error parsing SL string: {}", top.unwrap_err());
     }
 
-    let top2 = pl::PLGrammarParser::parse(pl::Rule::top, "((∼Ba ⊃ C) ∧ (A ≡ B))");
+    let top2 = pl::PLGrammarParser::parse(pl::Rule::top, "B");
 
-    if let Ok(ref pairs) = top2 {
-        println!("{:#?}", pairs);
+    if let Ok(pairs) = top2 {
+        println!("{}", pairs.as_str());
     } else {
         let err = top2.unwrap_err();
         println!("error parsing PL string: {}", err);

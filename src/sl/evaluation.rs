@@ -7,9 +7,8 @@ use crate::sl::Rule;
 pub(crate) fn evaluate_pair(pair: &Pair<Rule>, assignments: &HashMap<&str, bool>) -> Option<bool> {
     match pair.as_rule() {
         Rule::sentence => evaluate_pair(&pair.clone().into_inner().next().unwrap(), assignments),
-        Rule::negation => {
-            evaluate_pair(&pair.clone().into_inner().next().unwrap(), assignments).map(|result| !result)
-        }
+        Rule::negation => evaluate_pair(&pair.clone().into_inner().next().unwrap(), assignments)
+            .map(|result| !result),
         Rule::conjunction => binary_eval(&pair.clone(), assignments, std::ops::BitAnd::bitand),
         Rule::disjunction => binary_eval(&pair.clone(), assignments, std::ops::BitOr::bitor),
         Rule::material_conditional => binary_eval(&pair.clone(), assignments, |p, q| !p || q),

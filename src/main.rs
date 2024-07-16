@@ -3,15 +3,16 @@ use pest::Parser;
 mod sl;
 
 fn main() {
-    let pairs_result = sl::SLGrammarParser::parse(sl::Rule::sentence, "((\u{223C} B ⊃ C) \u{2227} (A ≡ B))");
+    let top =
+        sl::SLGrammarParser::parse(sl::Rule::top, "((∼B ⊃ C) ∧ (A ≡ B))");
 
-    if let Ok(pairs) = pairs_result {
+    if let Ok(mut pairs) = top {
         println!("truth table:");
 
-        for line in sl::truth_table::truth_table(pairs) {
+        for line in sl::truth_table::truth_table(pairs.next().unwrap().into_inner()) {
             println!("{}", line);
         }
     } else {
-        println!("error parsing string: {}", pairs_result.unwrap_err());
+        println!("error parsing string: {}", top.unwrap_err());
     }
 }

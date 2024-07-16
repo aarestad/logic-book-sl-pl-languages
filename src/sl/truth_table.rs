@@ -39,13 +39,21 @@ pub(crate) fn truth_table(mut top: Pairs<Rule>) -> Vec<String> {
         }
 
         4 => {
-            for (a, b, c, d) in iproduct!([true, false], [true, false], [true, false], [true, false]) {
+            for (a, b, c, d) in
+                iproduct!([true, false], [true, false], [true, false], [true, false])
+            {
                 truth_table.push(evaluate_row(atoms.iter(), [a, b, c, d], &sentence));
             }
         }
 
         5 => {
-            for (a, b, c, d, e) in iproduct!([true, false], [true, false], [true, false], [true, false], [true, false]) {
+            for (a, b, c, d, e) in iproduct!(
+                [true, false],
+                [true, false],
+                [true, false],
+                [true, false],
+                [true, false]
+            ) {
                 truth_table.push(evaluate_row(atoms.iter(), [a, b, c, d, e], &sentence));
             }
         }
@@ -56,7 +64,11 @@ pub(crate) fn truth_table(mut top: Pairs<Rule>) -> Vec<String> {
     truth_table
 }
 
-fn evaluate_row<'a, const N: usize>(atoms: impl Iterator<Item=&'a String>, atom_values: [bool; N], sentence: &Pair<Rule>) -> String {
+fn evaluate_row<'a, const N: usize>(
+    atoms: impl Iterator<Item = &'a String>,
+    atom_values: [bool; N],
+    sentence: &Pair<Rule>,
+) -> String {
     let mut assignments = HashMap::new();
 
     for (atom, assignment) in zip_eq(atoms, atom_values) {
@@ -77,7 +89,6 @@ fn evaluate_row<'a, const N: usize>(atoms: impl Iterator<Item=&'a String>, atom_
     } else {
         row_components.push("?");
     }
-
 
     row_components.join("")
 }

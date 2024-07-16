@@ -14,9 +14,16 @@ fn main() {
             println!("{}", line);
         }
     } else {
-        println!("error parsing string: {}", top.unwrap_err());
+        println!("error parsing SL string: {}", top.unwrap_err());
     }
 
-    let top2 = pl::PLGrammarParser::parse(pl::Rule::top, "((∼B ⊃ C) ∧ (A ≡ B))");
-    println!("{:#?}", top2);
+    let top2 = pl::PLGrammarParser::parse(pl::Rule::top, "((∼Ba ⊃ C) ∧ (A ≡ B))");
+
+    if let Ok(ref pairs) = top2 {
+        println!("{:#?}", top2);
+    } else {
+        let err = top2.unwrap_err();
+        println!("error parsing PL string: {}", err);
+        println!("{:#?}", err);
+    }
 }

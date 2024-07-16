@@ -20,9 +20,8 @@ existential_quantifier_symbol = { "\u{2203}" } // ∃
 quantifier_symbol = { universal_quantifier_symbol | existential_quantifier_symbol }
 quantifier = { open_paren | quantifier_symbol | individual_variable | closed_paren }
 
-prime = { "\u{2032}" }
+prime = { "\u{2032}" } // ′
 sentence_letter = { ASCII_ALPHA_UPPER ~ numeric_subscript? }
-predicate_primes = { sentence_letter ~ prime+ }
 // A''ab <-> Aab - note that if predicate_with_terms has n primes, it must be followed by n terms
 // TODO implement in the parser using PUSH/POP?
 predicate_with_terms = { sentence_letter ~ prime* ~ individual_term+ }

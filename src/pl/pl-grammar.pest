@@ -1,22 +1,22 @@
-WHITESPACE = _{ " " }
-open_paren      = _{ "(" }
-closed_paren    = _{ ")" }
+WHITESPACE   = _{ " " }
+open_paren   = _{ "(" }
+closed_paren = _{ ")" }
 
-numeric_subscript = { '\u{2081}' .. '\u{2089}' }
+numeric_subscript = { '\u{2081}' .. '\u{2089}' } // subscript 1 .. subscript 9
 
 individual_constant = { 'a' .. 'v' ~ numeric_subscript? }
 individual_variable = { 'w' .. 'z' ~ numeric_subscript? }
 individual_term = { individual_constant | individual_variable }
 
-tilde                  = { "\u{223C}" }
-wedge                  = { "\u{2227}" }
-vel                    = { "\u{2228}" }
-horseshoe              = { "\u{2283}" }
-triple_bar             = { "\u{2261}" }
+tilde           = { "\u{223C}" } // ∼
+wedge           = { "\u{2227}" } // ∧
+vel             = { "\u{2228}" } // ∨
+horseshoe       = { "\u{2283}" } // ⊃
+triple_bar      = { "\u{2261}" } // ≡
 truth_functional_connective = { tilde | wedge | vel | horseshoe | triple_bar }
 
-universal_quantifier_symbol   = { "\u{2200}" }
-existential_quantifier_symbol = { "\u{2203}" }
+universal_quantifier_symbol   = { "\u{2200}" } // ∀
+existential_quantifier_symbol = { "\u{2203}" } // ∃
 quantifier_symbol = { universal_quantifier_symbol | existential_quantifier_symbol }
 quantifier = { open_paren | quantifier_symbol | individual_variable | closed_paren }
 
@@ -48,3 +48,6 @@ formula = {
 
 // TODO: Sentence of PL: A formula P of PL is a sentence of PL if and only if no occurrence of a variable in P is free.
 // can this be expressed in the grammar?
+sentence = { formula }
+
+top = { SOI ~ sentence ~ EOI }

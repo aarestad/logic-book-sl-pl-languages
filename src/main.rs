@@ -1,6 +1,7 @@
 use pest::Parser;
 
 mod sl;
+mod pl;
 
 fn main() {
     let top =
@@ -15,4 +16,7 @@ fn main() {
     } else {
         println!("error parsing string: {}", top.unwrap_err());
     }
+
+    let top2 = pl::PLGrammarParser::parse(pl::Rule::top, "((∼B ⊃ C) ∧ (A ≡ B))");
+    println!("{:#?}", top2);
 }

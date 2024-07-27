@@ -14,6 +14,7 @@ pub(crate) enum Quantifier {
 
 pub(crate) struct PLFormula {}
 
+#[cfg(test)]
 mod test {
     use pest::Parser;
 
